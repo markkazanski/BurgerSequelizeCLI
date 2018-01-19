@@ -18,9 +18,15 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-var routes = require("./controllers/burgers_controller.js");
+//var routes = require("./controllers/burgers_controller.js");
+//app.use(routes);
 
-app.use(routes);
+// Routes
+// =============================================================
+//require("./routes/html-routes.js")(app);
+//require("./routes/author-api-routes.js")(app);
+//require("./routes/post-api-routes.js")(app);
+require("./controllers/burgers_controller.js")(app);
 
 db.sequelize.sync().then(function(){
   app.listen(PORT, function(){

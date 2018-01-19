@@ -1,37 +1,44 @@
-const burger = require("../models/burger.js");
-const express = require("express");
+//const burger = require("../models/burger.js");
+const db = require("../models");
 
-const router = express();
-const PORT = 3000;
+module.exports = function(app) {
 
-router.get("/", function(result, request){
-    request.redirect("/burgers");
-});
-
-router.get("/burgers", function(req, res) {
-    // express callback response by calling burger.selectAllBurger
-    burger.all(function(burgerData) {
-      // wrapper for orm.js that using MySQL query callback will return burger_data, render to index with handlebar
-      //res.render("index", { burger_data: burgerData });
-      console.log(burgerData);
-      res.render("index", {burgers: burgerData} );
+    app.get("/", function(result, request){
+        request.redirect("/burgers");
     });
-  });
 
-router.post("/burgers/create", function(req, res){
-    burger.add( req.body.burger_name, function(response){
-        res.redirect("/");
+    app.get("/burgers", function(req, res) { //SEQUELIZED
+        db.Burger.findAll({}).then(function(result) {
+        return res.render("index", { burger_data: result });
+        });
     });
-});
 
-router.put("/burgers/eat/:id", function(req, res){
-    burger.eat( req.params.id, function(response){
-        console.log(response);
-        //res.json(response);
-        res.sendStatus(200);
+    app.post("/burgers/create", function(req, res){
+        db.Burger.create(req.body).then(function(dbBurger) {
+            //res.json(dbBurger);
+            res.redirect("/");
+        });
+        /*
+        burger.add( req.body.burger_name, function(response){
+            res.redirect("/");
+        });
+        */
     });
-});
 
-router.listen(PORT);
+    app.put("/burgers/eat/:id", function(req, res){
+        db.Burger.update(
+            { devoured: 1 },
+            { where: { id: req.params.id } }
+          ).then(function(result){
+            console.log(result);
+            res.sendStatus(200);
+          });
+        
+        /*burger.eat( req.params.id, function(response){
+            console.log(response);
+            //res.json(response);
+            res.sendStatus(200);
+        });*/
+    });
 
-module.exports = router;
+};

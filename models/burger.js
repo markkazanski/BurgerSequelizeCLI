@@ -1,14 +1,14 @@
-module.exports = function(){
-    var Burger = sequelize.define("burgers", { //burgers is TABLE name
+module.exports = function(sequelize, DataTypes){
+    var Burger = sequelize.define("Burger", { //burgers is TABLE name
         // Name
         burger_name:{ 
-          type: Sequelize.STRING
+          type: DataTypes.STRING
         },
         // is it eaten
         devoured: { 
-          type: Sequelize.BOOLEAN,
+          type: DataTypes.BOOLEAN,
           defaultValue: 0
         }
       });
       return Burger;
-}
+};

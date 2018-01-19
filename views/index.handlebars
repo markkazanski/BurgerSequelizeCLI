@@ -12,7 +12,7 @@
 		<div class="row">
             <h3>Ready</h3>
             <div id="ready-burgers">
-            {{#each burgers}}
+            {{#each burger_data}}
                 {{#unless this.devoured}}
                     <div class="well well-lg row">
                     <div class="col-xs-9 text-center">{{this.id}}. {{this.burger_name}}</div>
@@ -29,7 +29,7 @@
         <div class="row">
         <h3>Eaten</h3>
         <div id="eaten-burgers"> 
-        {{#each burgers}}
+        {{#each burger_data}}
             {{#if this.devoured}}
                 <div class="well well-lg row">{{this.id}}. {{this.burger_name}}</div>
             {{/if}}
