@@ -1,0 +1,6 @@
+.well{
+    max-width:98%;
+}
+#eaten-burgers .well{
+    opacity:0.7;
+}
